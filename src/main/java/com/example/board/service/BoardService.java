@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +32,17 @@ public class BoardService {
             boardDTOList.add(boardDTO);
         }
         return boardDTOList;
+    }
+
+    public BoardDTO boardDetail(Long id) {
+        // Optional로 감싸진 boardEntity 타입으로 findById 를ㅎ 활용해서 받아오고
+        Optional<BoardEntity> optionalBoardEntity = boardRepository.findById(id);
+        // 그 정보를 BoardEntity타입의  boardEntity에 get을 활용해서 넣어주고
+        BoardEntity boardEntity = optionalBoardEntity.get();
+        // 미리 정의 해둔 DTO에 set 메서드인 toDTO를 활용해서 그 안에 entity를 넣어준다
+        BoardDTO boardDTO = BoardDTO.toDTO(boardEntity);
+        // 그리고 리턴
+        return boardDTO;
     }
 }
 //    List<MemberEntity> memberEntityList = memberRepository.findAll();

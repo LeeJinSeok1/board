@@ -16,6 +16,7 @@
         <th>비밀번호</th>
         <th>내용</th>
         <th>조회수</th>
+        <th>상세조회</th>
 
     </tr>
     <tr th:each="board: ${boardList}" >
@@ -25,6 +26,7 @@
         <td th:text="${board.boardPass}"></td>
         <td th:text="${board.boardContents}"></td>
         <td th:text="${board.boardHits}"></td>
+        <td><a th:href="@{|/boardDetail/${board.id}|}" class="btn btn-primary">조회</a></td>
     </tr>
 </table>
 </div>
