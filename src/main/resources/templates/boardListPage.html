@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>BoardListPage</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.rtl.min.css}">
+    <script th:src="@{/js/jqurey.js}"></script>
+</head>
+<body>
+<div class="container mt-5" style="margin-right: auto; margin-left: auto; width: 1200px">
+<table class="table table-dark table-striped">
+    <tr>
+        <th>id</th>
+        <th>작성자</th>
+        <th>제목</th>
+        <th>비밀번호</th>
+        <th>내용</th>
+        <th>조회수</th>
+
+    </tr>
+    <tr th:each="board: ${boardList}" >
+        <td th:text="${board.id}"></td>
+        <td th:text="${board.boardWriter}"></td>
+        <td th:text="${board.boardTitle}"></td>
+        <td th:text="${board.boardPass}"></td>
+        <td th:text="${board.boardContents}"></td>
+        <td th:text="${board.boardHits}"></td>
+    </tr>
+</table>
+</div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>boardSavePage</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.rtl.min.css}">
+  <script th:src="@{/js/jqurey.js}"></script>
+</head>
+<body>
+<div class="container mt-5" style="margin-left: auto; margin-right: auto; width: 800px">
+  <form action="/boardSave" method="post" class="form-control" name="boardSaveForm">
+    <input type="text" class="form-control" name="boardWriter" placeholder="작성자" id="writer">
+    <input type="text" class="form-control" name="boardTitle" placeholder="제목" id="title">
+    <input type="text" class="form-control" name="boardPass" placeholder="비밀번호" id="pass">
+    <textarea name="boardContents" id="contents" cols="30" rows="10" class="form-control" placeholder="내용"></textarea>
+    <input type="button" class="btn btn-primary" onclick="boardSave()" value="글작성">
+  </form>
+</div>
+</body>
+   <script>
+     const boardSave =() =>  {
+         const writer = document.getElementById("writer").value;
+         const title = document.getElementById("title").value;
+         const pass = document.getElementById("pass").value;
+         if(writer==""){
+             alert("작성자는 필수값입니다.")
+         }else if(title==""){
+             alert("제목은 필수값입니다.")
+         }else if(pass==""){
+             alert("비밀번호는 필수값입니다.")
+         }else{
+             alert("저장완료")
+             document.boardSaveForm.submit();
+         }
+     }
+   </script>
+</html>
