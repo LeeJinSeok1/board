@@ -21,8 +21,8 @@ public class BoardController {
 
     @PostMapping("/boardSave")
     public String boardSave(@ModelAttribute BoardDTO boardDTO){
-        boardService.boardSave(boardDTO);
-        return "boardListPage";
+       Long boardId = boardService.boardSave(boardDTO);
+        return "redirect:boardList";
     }
 
     @GetMapping("boardList")
