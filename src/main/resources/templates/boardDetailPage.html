@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.rtl.min.css}">
+    <script th:src="@{/js/jqurey.js}"></script>
+</head>
+<body>
+<div class="container mt-5" style="margin-left: auto; margin-right: auto; width: 1200px">
+<table class="table table-dark table-striped" >
+    <tr>
+        <th>id:</th>
+        <td th:text="${board.id}"> </td>
+    </tr>
+    <tr>
+        <th>작성자:</th>
+        <td th:text="${board.boardWriter}"></td>
+    </tr>
+    <tr>
+        <th>제목:</th>
+        <td th:text="${board.boardTitle}"></td>
+    </tr>
+    <tr>
+        <th>조회수:</th>
+        <td th:text="${board.boardHits}"></td>
+    </tr>
+    <tr>
+        <th>내용:</th>
+        <td th:text="${board.boardContents}"></td>
+    </tr>
+    <tr>
+        <th>비밀번호:</th>
+        <td th:text="${board.boardPass}"></td>
+    </tr>
+</table>
+</div>
+
+</body>
+</html>
