@@ -22,7 +22,7 @@ public class BoardController {
     @PostMapping("/boardSave")
     public String boardSave(@ModelAttribute BoardDTO boardDTO){
         boardService.boardSave(boardDTO);
-        return "index";
+        return "boardListPage";
     }
 
     @GetMapping("boardList")

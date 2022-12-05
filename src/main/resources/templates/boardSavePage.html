@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>boardSavePage</title>
@@ -7,8 +7,9 @@
   <script th:src="@{/js/jqurey.js}"></script>
 </head>
 <body>
+<th:block th:replace="commonPages/header :: header"></th:block>
 <div class="container mt-5" style="margin-left: auto; margin-right: auto; width: 800px">
-  <form action="/boardSave" method="post" class="form-control" name="boardSaveForm">
+  <form action="/boardSave" method="post" class="form-control" name="boardSaveForm">미토메요
     <input type="text" class="form-control" name="boardWriter" placeholder="작성자" id="writer">
     <input type="text" class="form-control" name="boardTitle" placeholder="제목" id="title">
     <input type="text" class="form-control" name="boardPass" placeholder="비밀번호" id="pass">

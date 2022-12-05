@@ -33,8 +33,28 @@
         <th>비밀번호:</th>
         <td th:text="${board.boardPass}"></td>
     </tr>
+    <tr>
+        <th>회원수정:</th>
+        <td><button class="btn btn-warning" onclick="memberUpdate()" style="float: right">수정</button></td>
+    </tr>
+    <tr>
+        <th>회원삭제:</th>
+        <td><button class="btn btn-danger" onclick="memberDelete()" style="float: right">삭제</button></td>
+    </tr>
 </table>
 </div>
+<div id="boxArea">
 
+</div>
 </body>
+<script>
+    const memberUpdate = () => {
+        const passBox = document.getElementById("boxArea")
+
+    }
+
+    const memberDelete = () => {
+
+    }
+</script>
 </html>
