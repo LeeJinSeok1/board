@@ -49,5 +49,14 @@ public class BoardService {
     public void boardHits(Long id) {
         boardRepository.boardHits(id);
     }
+
+    public void boardUpdate(BoardDTO boardDTO) {
+        BoardEntity boardEntity = BoardEntity.toUpdateEntity(boardDTO);
+        boardRepository.save(boardEntity);
+    }
+
+    public void boardDelete(Long id) {
+        boardRepository.deleteById(id);
+    }
 }
 

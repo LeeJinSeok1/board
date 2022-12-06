@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>BoardUpdatePage</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.rtl.min.css}">
+  <script th:src="@{/js/jqurey.js}"></script>
+</head>
+<body>
+<div class="container">
+  <form action="/boardUpdate" method="post" class="form-control" name="updateForm">
+    <input type="text" th:value="${board.boardHits}" name="boardHits" hidden>
+    <input type="text" class="form-control" th:value="${board.id}" name="id" hidden>
+    <input type="text" class="form-control" th:value="${board.boardWriter}" name="boardWriter">
+    <input type="text" class="form-control" th:value="${board.boardTitle}" name="boardTitle">
+    <input type="text" th:value="${board.boardPass}" id="boardPass" name="boardPass" hidden>
+    <textarea name="boardContents" id="" cols="30" rows="10" class="form-control" placeholder="내용"></textarea>
+    <input type="text" placeholder="비밀번호를 입력해주세요." id="checkPass">
+    <input type="button" class="btn btn-warning" value="수정하기" onclick="checkPassword()">
+  </form>
+</div>
+</body>
+<script>
+  const checkPassword=()=>{
+    const boardPass = document.getElementById("boardPass").value;
+    const checkPass = document.getElementById("checkPass").value;
+    if(boardPass !=checkPass){
+      alert("비밀번호를 확인해주세요.")
+    }else{
+      alert("수정완료")
+      document.updateForm.submit();
+    }
+  }
+</script>
+</html>
