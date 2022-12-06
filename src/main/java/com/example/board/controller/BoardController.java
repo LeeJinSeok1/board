@@ -35,6 +35,9 @@ public class BoardController {
     @GetMapping("/boardDetail/{id}")
     public String boardDetail(@PathVariable Long id,
                               Model model){
+        //조회수
+        boardService.boardHits(id);
+        //
         BoardDTO boardDTO = boardService.boardDetail(id);
         model.addAttribute("board",boardDTO);
         return "boardDetailPage";

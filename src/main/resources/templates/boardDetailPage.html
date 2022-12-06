@@ -34,6 +34,10 @@
         <td th:text="${board.boardPass}"></td>
     </tr>
     <tr>
+        <th>작성시간:</th>
+        <td th:text="*{#temporals.format(board.boardCreatedTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+    </tr>
+    <tr>
         <th>회원수정:</th>
         <td><button class="btn btn-warning" onclick="memberUpdate()" style="float: right">수정</button></td>
     </tr>

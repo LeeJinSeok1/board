@@ -5,6 +5,7 @@ import com.example.board.entity.BoardEntity;
 import com.example.board.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,15 +45,9 @@ public class BoardService {
         // 그리고 리턴
         return boardDTO;
     }
+    @Transactional
+    public void boardHits(Long id) {
+        boardRepository.boardHits(id);
+    }
 }
-//    List<MemberEntity> memberEntityList = memberRepository.findAll();
-//
-//    List<MemberDTO> memberDTOList = new ArrayList<>();
-//
-//        for (MemberEntity memberEntity: memberEntityList){
-//                MemberDTO memberDTO= MemberDTO.toDTO(memberEntity);
-//                memberDTOList.add(memberDTO);
-//                }
-//                return memberDTOList;
-//
-//                }
+
