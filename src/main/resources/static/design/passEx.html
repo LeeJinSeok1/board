@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/bootstrap.rtl.min.css">
+    <script src="../js/jqurey.js"></script>
+</head>
+<body>
+        <div class="container">
+            <button class="btn btn-warning" onclick="req('update')">수정</button>
+            <button class="btn btn-danger" onclick="req('delete')">삭제</button>
+<div id="pass-check">
+
+</div>
+        </div>
+</body>
+<script>
+    const req=(value)=> {
+        const passCheckArea = document.getElementById("pass-check");
+        passCheckArea.innerHTML = "<input type=\"text\" class=\"form-control\" style=\"width: 200px\" id=\"passCk\">\n" +
+            "    <input type=\"button\" class=\"btn btn-danger\" value=\"확인\" onclick=\"passCheck('"+value+"')\">";
+
+    }
+
+ const passCheck = (value) => {
+        const pass = document.getElementById("passCk").value;
+        const dbPass= "1234";
+        if(pass ==dbPass){
+            if(value=="update"){
+                //업데이트주소로
+            }else{
+                //딜리트 주소로
+            }
+        }else{
+            alert("비밀번호 불일치")
+        }
+ }
+</script>
+</html>

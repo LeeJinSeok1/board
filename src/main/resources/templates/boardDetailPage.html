@@ -10,6 +10,7 @@
 <div class="container mt-5" style="margin-left: auto; margin-right: auto; width: 1200px">
 <table class="table table-dark table-striped" >
     <input type="text"  th:value="${board.boardPass}" hidden id="boardPass">
+    <input type="text" th:value="${board.id}" hidden id="boardId">
     <tr>
         <th>id:</th>
         <td th:text="${board.id}"> </td>
@@ -30,30 +31,67 @@
         <th>내용:</th>
         <td th:text="${board.boardContents}"></td>
     </tr>
-<!--    <tr>-->
-<!--        <th>비밀번호:</th>-->
-<!--        <td th:text="${board.boardPass}" hidden></td>-->
-<!--    </tr>-->
     <tr>
         <th>작성시간:</th>
         <td th:text="*{#temporals.format(board.boardCreatedTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
     </tr>
     <tr>
-        <th>회원수정:</th>
-        <td><a th:href="@{|/boardUpdate/${board.id}|}" class="btn btn-warning">수정</a></td>
+        <th>게시판수정:</th>
+        <td><button onclick="boardUpdate()" class="btn btn-warning">수정</button></td>
+<!--        <td><a th:href="@{|/boardUpdate/${board.id}|}" class="btn btn-warning">수정</a></td>-->
 <!--        th:href="@{|/boardDetail/${board.id}|}"-->
     </tr>
     <tr>
-        <th>회원삭제:</th>
-        <td><a th:href="@{|/boardDelete/${board.id}|}" class="btn btn-danger">삭제</a></td>
+        <th>게시판삭제:</th>
+        <td><button onclick="boardDelete()" class="btn btn-danger">삭제</button></td>
+<!--        <td><a th:href="@{|/boardDelete/${board.id}|}" class="btn btn-danger">삭제</a></td>-->
     </tr>
 </table>
     <div id="passArea">
-        <form action="" id="passForm"></form>
+
     </div>
 </div>
+
 </body>
-<script>
+<script th:inline="javascript">
+     const boardUpdate = () => {
+         const passArea = document.getElementById("passArea");
+         let result = "<input type=\"text\" name=\"checkPass2\" id=\"checkPass2\" placeholder=\"비밀번호를 입력해주세요.\">\n" +
+             "<input type=\"button\" value=\"수정\" class=\"btn btn-warning\" onclick=\"boardUpdate2()\">";
+         passArea.innerHTML=result;
+
+     }
+     const boardUpdate2 = () => {
+         const boardPass = document.getElementById("boardPass").value;
+         const checkPass = document.getElementById("checkPass2").value;
+         const boardId = [[${board.id}]];
+         // const boardId = document.getElementById("boardId").value;
+         if(boardPass !=checkPass){
+             alert("비밀번호를 확인해주세요")
+         }else{
+             // location.href="/boardUpdate?id="+boardId;
+             location.href="/boardUpdate/" + boardId;
+         }
+     }
+
+
+    const boardDelete=()=> {
+        const passArea = document.getElementById("passArea");
+        let result = "<input type=\"text\" name=\"checkPass2\" id=\"checkPass2\" placeholder=\"비밀번호를 입력해주세요.\">\n" +
+            "<input type=\"button\" value=\"삭제\" class=\"btn btn-danger\" onclick=\"boardDelete2()\">";
+                 passArea.innerHTML=result;
+}
+   const boardDelete2=()=> {
+        const boardPass = document.getElementById("boardPass").value;
+        const checkPass = document.getElementById("checkPass2").value;
+        const boardId = document.getElementById("boardId").value;
+        if(boardPass !=checkPass){
+            alert("비밀번호를 확인해주세요")
+        }else{
+            // location.href="/boardDelete?id="+boardId;
+            location.href="/boardDelete/" + boardId;
+        }
+   }
     
 </script>
 </html>
