@@ -50,7 +50,7 @@ public class BoardService {
 
 
     }
-
+    @Transactional
     public List<BoardDTO> boardList() {
         // 데이터 베이스에 모든 정보를 가지고 온다.
         List<BoardEntity> boardEntityList = boardRepository.findAll();
@@ -65,7 +65,7 @@ public class BoardService {
         }
         return boardDTOList;
     }
-
+    @Transactional
     public BoardDTO boardDetail(Long id) {
         // Optional로 감싸진 boardEntity 타입으로 findById 를ㅎ 활용해서 받아오고
         Optional<BoardEntity> optionalBoardEntity = boardRepository.findById(id);

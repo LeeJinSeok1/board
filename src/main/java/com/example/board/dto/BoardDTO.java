@@ -38,6 +38,22 @@ public class BoardDTO {
         boardDTO.setBoardHits(boardEntity.getBoardHits());
         boardDTO.setBoardCreatedTime(boardEntity.getBoardCreatedTime());
         boardDTO.setBoardUpdatedTime(boardEntity.getBoardUpdatedTime());
+
+        //파일 관련된 내용 추가
+        if(boardEntity.getFileAttached() ==1){
+            //첨부파일 있음
+            boardDTO.setFileAttached(boardEntity.getFileAttached()); // 0 or 1
+//            boardDTO.setFileAttached(1);
+            //파일 가져오기
+            boardDTO.setOriginalFileName(boardEntity.getBoardFileEntityList().get(0).getOriginalFileName());
+            boardDTO.setStoredFileName(boardEntity.getBoardFileEntityList().get(0).getStoredFileName());
+
+        }else{
+            //첨부파일 없음
+            boardDTO.setFileAttached(boardEntity.getFileAttached()); // 0 or 1
+//            boardDTO.setFileAttached(0);
+        }
+
         return boardDTO;
     }
 
