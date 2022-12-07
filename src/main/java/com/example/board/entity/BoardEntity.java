@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -24,6 +26,14 @@ public class BoardEntity extends BaseEntity{
     private String boardContents;
     @Column
     private int boardHits;
+    @Column
+    private int fileAttached; // 파일없으면 디폴트 0 있으면 1
+
+
+    // BoardFileEntity와 참조관계
+    // mappedBy: 자신 엔티티에 있는 필드 이름
+    @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<BoardFileEntity> boardFileEntityList = new ArrayList<>();
 
 
 
@@ -34,8 +44,23 @@ public class BoardEntity extends BaseEntity{
         boardEntity.setBoardPass(boardDTO.getBoardPass());
         boardEntity.setBoardContents(boardDTO.getBoardContents());
         boardEntity.setBoardHits(0);
+        boardEntity.setFileAttached(0);
+
         return boardEntity;
     }
+    public static BoardEntity toSaveFileEntity(BoardDTO boardDTO) {
+        BoardEntity boardEntity = new BoardEntity();
+        boardEntity.setBoardWriter(boardDTO.getBoardWriter());
+        boardEntity.setBoardTitle(boardDTO.getBoardTitle());
+        boardEntity.setBoardPass(boardDTO.getBoardPass());
+        boardEntity.setBoardContents(boardDTO.getBoardContents());
+        boardEntity.setBoardHits(0);
+        boardEntity.setFileAttached(1);
+
+        return boardEntity;
+    }
+
+
 
     public static BoardEntity toUpdateEntity(BoardDTO boardDTO){
         BoardEntity boardEntity = new BoardEntity();

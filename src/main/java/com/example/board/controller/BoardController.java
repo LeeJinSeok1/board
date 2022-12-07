@@ -3,10 +3,13 @@ package com.example.board.controller;
 import com.example.board.dto.BoardDTO;
 import com.example.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -20,7 +23,7 @@ public class BoardController {
     }
 
     @PostMapping("/boardSave")
-    public String boardSave(@ModelAttribute BoardDTO boardDTO){
+    public String boardSave(@ModelAttribute BoardDTO boardDTO) throws IOException {
        Long boardId = boardService.boardSave(boardDTO);
         return "redirect:boardList";
     }
@@ -52,9 +55,11 @@ public class BoardController {
     }
 
     @PostMapping("/boardUpdate")
-    public String boardUpdate(@ModelAttribute BoardDTO boardDTO){
+    public String boardUpdate(@ModelAttribute BoardDTO boardDTO,Model model){
         boardService.boardUpdate(boardDTO);
-        return "redirect:boardList";
+        BoardDTO board = boardService.boardDetail(boardDTO.getId());
+        model.addAttribute("board",board);
+        return "boardDetailPage";
     }
 
     @GetMapping("/boardDelete/{id}")
@@ -64,6 +69,12 @@ public class BoardController {
         List<BoardDTO> boardList= boardService.boardList();
         model.addAttribute("boardList",boardList);
         return "boardListPage";
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity update(@RequestBody BoardDTO boardDTO){
+        boardService.boardUpdate(boardDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

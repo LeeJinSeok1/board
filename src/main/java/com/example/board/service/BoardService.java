@@ -2,11 +2,16 @@ package com.example.board.service;
 
 import com.example.board.dto.BoardDTO;
 import com.example.board.entity.BoardEntity;
+import com.example.board.entity.BoardFileEntity;
+import com.example.board.repository.BoardFileRepository;
 import com.example.board.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -15,9 +20,35 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class BoardService {
     private final BoardRepository boardRepository;
-    public Long boardSave(BoardDTO boardDTO) {
-       BoardEntity boardEntity = BoardEntity.toSaveEntity(boardDTO);
-        return boardRepository.save(boardEntity).getId();
+    private final BoardFileRepository boardFileRepository;
+    public Long boardSave(BoardDTO boardDTO) throws IOException {
+
+        if(boardDTO.getBoardFile().isEmpty()){
+            System.out.println("파일없음");
+            BoardEntity boardEntity = BoardEntity.toSaveEntity(boardDTO);
+            return boardRepository.save(boardEntity).getId();
+
+        }else{
+            System.out.println("파일있음");
+            MultipartFile boardFile = boardDTO.getBoardFile();
+            String originalFileName= boardFile.getOriginalFilename();
+            String storedFileName= System.currentTimeMillis()+"_"+ originalFileName;
+            String savePath = "D:\\springboot_img\\" + storedFileName;
+            boardFile.transferTo(new File(savePath));
+
+            BoardEntity boardEntity= BoardEntity.toSaveFileEntity(boardDTO);
+            Long savedId = boardRepository.save(boardEntity).getId();
+
+            BoardEntity entity= boardRepository.findById(savedId).get();
+            BoardFileEntity boardFileEntity =
+                    BoardFileEntity.toSaveBoardFileEntity(entity, originalFileName, storedFileName);
+
+             boardFileRepository.save(boardFileEntity);
+             return savedId;
+
+        }
+
+
     }
 
     public List<BoardDTO> boardList() {

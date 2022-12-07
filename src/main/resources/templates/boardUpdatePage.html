@@ -5,22 +5,55 @@
     <title>BoardUpdatePage</title>
   <link rel="stylesheet" th:href="@{/css/bootstrap.rtl.min.css}">
   <script th:src="@{/js/jqurey.js}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
 <div class="container">
   <form action="/boardUpdate" method="post" class="form-control" name="updateForm">
     <input type="text" th:value="${board.boardHits}" name="boardHits" hidden>
     <input type="text" class="form-control" th:value="${board.id}" name="id" hidden>
-    <input type="text" class="form-control" th:value="${board.boardWriter}" name="boardWriter">
+    <input type="text" class="form-control" th:value="${board.boardWriter}" name="boardWriter" readonly>
     <input type="text" class="form-control" th:value="${board.boardTitle}" name="boardTitle">
     <input type="text" th:value="${board.boardPass}" id="boardPass" name="boardPass" hidden>
-    <textarea name="boardContents" id="" cols="30" rows="10" class="form-control" placeholder="내용"></textarea>
+    <textarea name="boardContents" id="" cols="30" rows="10" class="form-control" placeholder="내용"th:text="${board.boardContents}"></textarea>
     <input type="text" placeholder="비밀번호를 입력해주세요." id="checkPass">
     <input type="button" class="btn btn-warning" value="수정하기" onclick="checkPassword()">
+    <input type="button" class="btn btn-warning" value="악시오스" onclick="boardUpdateAxios()">
   </form>
 </div>
 </body>
 <script>
+  const boardUpdateAxios= () =>{
+    const id = document.querySelector('input[name="id"]').value;
+    const title = document.getElementsByName("boardTitle")[0].value;
+    const writer =document.querySelector('input[name="boardWriter"]').value;
+    const pass =document.querySelector('input[name="boardPass"]').value;
+    const contents =document.querySelector('input[name="boardContents"]').value;
+    const hits =document.querySelector('input[name="boardHits"]').value;
+    const passDB = [[${board.boardPass}]];
+    if(pass ==passDB){
+      axios({
+        method: "put",
+        tul: "/boardUpdate" + id,
+        date: {
+          id: id,
+          boardTitle: title,
+          boardWriter: writer,
+          boardPass: pass,
+          boardContents: contents,
+          boardHits: hits
+        }
+      }).then(res=>{
+
+
+      }).catch(res=>{
+
+      })
+    }else{
+      alert("비밀번호 불일치")
+    }
+  }
+
   const checkPassword=()=>{
     const boardPass = document.getElementById("boardPass").value;
     const checkPass = document.getElementById("checkPass").value;
