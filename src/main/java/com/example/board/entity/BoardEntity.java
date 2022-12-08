@@ -29,11 +29,17 @@ public class BoardEntity extends BaseEntity{
     @Column
     private int fileAttached; // 파일없으면 디폴트 0 있으면 1
 
-
+    //파일
     // BoardFileEntity와 참조관계
     // mappedBy: 자신 엔티티에 있는 필드 이름
     @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<BoardFileEntity> boardFileEntityList = new ArrayList<>();
+
+    //댓글
+    // commentEntity와 참조 관계
+    //mappedBy: 자신 엔티티에 있는 필드 이름
+    @OneToMany(mappedBy = "boardEntity",cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<CommentEntity> commentEntityList = new ArrayList<>();
 
 
 
