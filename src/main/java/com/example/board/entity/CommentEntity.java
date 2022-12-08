@@ -1,6 +1,7 @@
 package com.example.board.entity;
 
 
+import com.example.board.dto.CommentDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,12 +15,21 @@ public class CommentEntity extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
+    @Column(length = 20,nullable = false)
     private String commentWriter;
-    @Column
+    @Column(length = 200,nullable = false)
     private String commentContents;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="board_id")
     private BoardEntity boardEntity;
+
+    public static CommentEntity toCommentSave(CommentDTO commentDTO,BoardEntity entity){
+        CommentEntity commentEntity = new CommentEntity();
+        commentEntity.setBoardEntity(entity);
+        commentEntity.setCommentWriter(commentDTO.getCommentWriter());
+        commentEntity.setCommentContents(commentDTO.getCommentContents());
+        return commentEntity;
+    }
 
 }
