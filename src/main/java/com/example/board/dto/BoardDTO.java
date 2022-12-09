@@ -31,6 +31,16 @@ public class BoardDTO {
 //    저장된 이름
     private List<String> storedFileName;
 
+// 페이징 목록 변환을 위한 생성자
+    //boardTitle, boardHits, boardWriter, boardCreatedTime, id
+    public BoardDTO(Long id, String boardWriter, String boardTitle, int boardHits, LocalDateTime boardCreatedTime) {
+        this.id = id;
+        this.boardWriter = boardWriter;
+        this.boardTitle = boardTitle;
+        this.boardHits = boardHits;
+        this.boardCreatedTime = boardCreatedTime;
+    }
+
     public static BoardDTO toDTO(BoardEntity boardEntity) {
         BoardDTO boardDTO = new BoardDTO();
         boardDTO.setId(boardEntity.getId());

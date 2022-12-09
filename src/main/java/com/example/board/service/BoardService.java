@@ -6,6 +6,10 @@ import com.example.board.entity.BoardFileEntity;
 import com.example.board.repository.BoardFileRepository;
 import com.example.board.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,7 +27,7 @@ public class BoardService {
     private final BoardFileRepository boardFileRepository;
     public Long boardSave(BoardDTO boardDTO) throws IOException {
 //        if(boardDTO.getBoardFile().isEmpty()){
-        if(boardDTO.getBoardFile().size() == 0){
+        if(boardDTO.getBoardFile() ==null || boardDTO.getBoardFile().size() == 0){
             System.out.println("파일없음");
             BoardEntity boardEntity = BoardEntity.toSaveEntity(boardDTO);
             return boardRepository.save(boardEntity).getId();
@@ -56,7 +60,7 @@ public class BoardService {
     @Transactional
     public List<BoardDTO> boardList() {
         // 데이터 베이스에 모든 정보를 가지고 온다.
-        List<BoardEntity> boardEntityList = boardRepository.findAll();
+        List<BoardEntity> boardEntityList = boardRepository.findAll(Sort.by(Sort.Direction.DESC,"id"));
         // 정보를 넣어줄 DTO타입의 arrayList를 만들어 주고
         List<BoardDTO> boardDTOList = new ArrayList<>();
         //반복문을 사용해서 모두 까준다(리스트를하나씩 열어준다)
@@ -91,6 +95,23 @@ public class BoardService {
 
     public void boardDelete(Long id) {
         boardRepository.deleteById(id);
+    }
+
+    public Page<BoardDTO> paging(Pageable pageable) {
+        int page = pageable.getPageNumber() -1;//  page는 0부터 시작하기 때문에 1값을 빼는 처리를 한 후 보내준다.
+        final int pageLimit = 3; // 몇개 씩 보여줄건지!
+        Page<BoardEntity> boardEntities = boardRepository.findAll(PageRequest.of(page, pageLimit,
+                Sort.by(Sort.Direction.DESC, "id")));
+        Page<BoardDTO> boardList = boardEntities.map(
+                board -> new BoardDTO(board.getId(),
+                        board.getBoardWriter(),
+                        board.getBoardTitle(),
+                        board.getBoardHits(),
+                        board.getBoardCreatedTime()
+                )
+        );
+
+        return boardList;
     }
 }
 

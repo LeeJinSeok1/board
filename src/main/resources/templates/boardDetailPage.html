@@ -5,6 +5,7 @@
     <title>Title</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.rtl.min.css}">
     <script th:src="@{/js/jqurey.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
 <div class="container mt-5" style="margin-left: auto; margin-right: auto; width: 1200px">
@@ -59,6 +60,8 @@
 
     </div>
 </div>
+
+
 <!--댓글 -->
 <div class="container mt-5" >
     <div id="comment-writer" class="input-group mb-3">
@@ -76,21 +79,28 @@
     </div>
 </div>
 <!--댓글 리스트-->
-<div class="container mt-5" id="comment-list">
-    <table class="table">
-        <tr>
-            <th>댓글번호</th>
-            <th>작성자</th>
-            <th>내용</th>
-        </tr>
-        <c:forEachitems="${commentList}" var="comment">
-        <tr>
-            <td>${comment.id}</td>
-            <td>${comment.commentWriter}</td>
-            <td>${comment.commentContents}</td>
-        </tr>
-        </c:forEach>
-    </table>
+
+
+<div class="container mt-5" id="commentArea">
+    <div th:if="${commentList == 'empty'}">
+        <p>작성된 댓글이 없습니다.</p>
+    </div>
+    <div th:unless="${commentList == 'empty'}">
+        <table class="table">
+            <tr>
+                <th>댓글번호</th>
+                <th>작성자</th>
+                <th>내용</th>
+<!--                <th>작성시간</th>-->
+            </tr>
+            <tr th:each="comment: ${commentList}">
+                <td th:text="${comment.id}"></td>
+                <td th:text="${comment.commentWriter}"></td>
+                <td th:text="${comment.commentContents}"></td>
+<!--                <td th:text="*{#temporals.format(comment.commentCreatedTime, 'yyyy-MM-dd HH:mm:ss')}"></td>-->
+            </tr>
+        </table>
+    </div>
 </div>
 
 </body>
@@ -138,6 +148,8 @@
          const commentWriter= document.getElementById("commentWriter").value;
          const commentContents= document.getElementById("commentContents").value;
          const boardId = [[${board.id}]]
+       const commentArea=document.getElementById("commentArea");
+
        $.ajax({
            type:"post",
            url:"/commentSave",
@@ -147,13 +159,36 @@
                boardId:boardId
            },
            dateType: "json",
-           success: function (ck) {
+           success: function (commentList){
+
+               let output = "<table class='table'>";
+               output += "<tr><th>댓글번호</th>";
+               output += "<th>작성자</th>";
+               output += "<th>내용</th></tr>";
+               // output += "<th>작성시간</th></tr>";
+
+               for(let i in commentList){
+                   output += "<tr>";
+                   output += "<td>"+commentList[i].id+"</td>";
+                   output += "<td>"+commentList[i].commentWriter+"</td>";
+                   output += "<td>"+commentList[i].commentContents+"</td>";
+                   // output += "<td>"+commentList[i].comment+"</td>";
+
+                   output += "</tr>";
+               }
+               output += "</table>";
+               document.getElementById('commentArea').innerHTML = output;
+               document.getElementById('commentWriter').value='';
+               document.getElementById('commentContents').value='';
+
 
            },
            error: function (ck) {
 
            }
        })
+
+
    }
     
 </script>

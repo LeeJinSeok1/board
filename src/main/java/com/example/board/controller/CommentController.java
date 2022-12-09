@@ -15,9 +15,11 @@ import java.util.List;
 public class CommentController {
     private final CommentService commentService;
     @PostMapping("/commentSave")
-    public @ResponseBody CommentDTO commentSave(@ModelAttribute CommentDTO commentDTO){
+    public @ResponseBody List<CommentDTO> commentSave(@ModelAttribute CommentDTO commentDTO){
         //저장처리
-        commentService.commentSave(commentDTO);
-        return null;
+        Long savedId = commentService.commentSave(commentDTO);
+        List<CommentDTO> result = commentService.commentList(commentDTO.getBoardId());
+        System.out.println(result);
+        return result;
     }
 }
