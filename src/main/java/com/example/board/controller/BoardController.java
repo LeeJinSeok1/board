@@ -51,13 +51,13 @@ public class BoardController {
         int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1;
         int endPage = ((startPage + blockLimit - 1) < boardDTOList.getTotalPages()) ? startPage + blockLimit - 1 : boardDTOList.getTotalPages();
         // 삼항연산자
-        int test = 10;
-        int num = (test > 5)? test: 100; // 테스트값이 5 이상이여야 테스트가 100이 된다.
-        if(test>5){
-            num = test;
-        }else{
-            num = 100;
-        }
+//        int test = 10;
+//        int num = (test > 5)? test: 100; // 테스트값이 5 이상이여야 테스트가 100이 된다.
+//        if(test>5){
+//            num = test;
+//        }else{
+//            num = 100;
+//        }
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
 
@@ -111,6 +111,16 @@ public class BoardController {
     public ResponseEntity update(@RequestBody BoardDTO boardDTO){
         boardService.boardUpdate(boardDTO);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/boardSearch")
+    public String search(@RequestParam("type") String type,@RequestParam("q") String q,
+                         Model model){
+        List<BoardDTO> searchList = boardService.search(type,q);
+        System.out.println(searchList);
+        model.addAttribute("boardList",searchList);
+        return "boardListPage";
+
     }
 
 

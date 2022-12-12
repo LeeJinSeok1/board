@@ -167,6 +167,21 @@ public class BoardTest {
         System.out.println("boardList.isLast() = " + boardList.isLast()); // 마지막페이지인지 여부
     }
 
+    @Test
+    @Transactional
+    @DisplayName("검색 테스트")
+    public void searchTest() {
+        String q = "이";
+        // 제목이나 작성자에 q 가 포함된 검색
+        List<BoardEntity> boardEntityList=
+                boardRepository.findByBoardTitleContainingOrBoardWriterContainingOrderByIdDesc(q,q);
+        for(BoardEntity boardEntity: boardEntityList){
+            BoardDTO boardDTO = BoardDTO.toDTO(boardEntity);
+            System.out.println(boardDTO);
+        }
+
+    }
+
 
 
 

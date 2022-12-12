@@ -99,7 +99,7 @@ public class BoardService {
 
     public Page<BoardDTO> paging(Pageable pageable) {
         int page = pageable.getPageNumber() -1;//  page는 0부터 시작하기 때문에 1값을 빼는 처리를 한 후 보내준다.
-        final int pageLimit = 3; // 몇개 씩 보여줄건지!
+        final int pageLimit = 5; // 몇개 씩 보여줄건지!
         Page<BoardEntity> boardEntities = boardRepository.findAll(PageRequest.of(page, pageLimit,
                 Sort.by(Sort.Direction.DESC, "id")));
         Page<BoardDTO> boardList = boardEntities.map(
@@ -112,6 +112,25 @@ public class BoardService {
         );
 
         return boardList;
+    }
+
+    public List<BoardDTO> search(String type, String q) {
+        List<BoardDTO> boardDTOList = new ArrayList<>();
+        List<BoardEntity> boardEntityList= null;
+        if(type.equals("boardWriter")){
+         boardEntityList = boardRepository.findByBoardWriterContainingOrderByIdDesc(q);
+        }else if(type.equals("boardTitle")){
+           boardEntityList = boardRepository.findByBoardTitleContainingOrderByIdDesc(q);
+
+        }else{
+          boardEntityList = boardRepository.findByBoardTitleContainingOrBoardWriterContainingOrderByIdDesc(q,q);
+
+        }
+
+        for(BoardEntity boardEntity: boardEntityList){
+            boardDTOList.add(BoardDTO.toDTO(boardEntity));
+        }
+        return boardDTOList;
     }
 }
 

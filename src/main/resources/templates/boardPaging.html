@@ -29,7 +29,7 @@
     <tr th:each="board: ${boardList}">
       <td th:text="${board.id}"></td>
       <td th:text="${board.boardWriter}"></td>
-      <td><a th:href="@{|/board/${board.id}|}" th:text="${board.boardTitle}">제목</a></td>
+      <td><a th:href="@{|/boardDetail/${board.id}|}" th:text="${board.boardTitle}">제목</a></td>
       <td th:text="*{#temporals.format(board.boardCreatedTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
       <td th:text="${board.boardHits}"></td>
     </tr>
@@ -39,7 +39,7 @@
   <div class="container">
     <ul class="pagination justify-content-center">
       <li class="page-item">
-        <!--첫페이지 요청 링크-->
+        <!--첫페이지 요청 링크 /board?page=1-->
         <a class="page-link" th:href="@{/board(page=1)}">
           <span>First</span>
         </a>
